@@ -11,7 +11,7 @@ const MONGODB_URI = 'mongodb+srv://harmanmartin:myDataBasePassCOMP426@cluster0.f
 
 const routes = require('./routes/api');
 
-mongoose.connect(MONGODB_URI || 'mongodb://localhost/Comp426Backend', {
+mongoose.connect(process.env.MONGODB_URI || MONGODB_URI || 'mongodb://localhost/Comp426Backend', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
@@ -26,5 +26,9 @@ app.use(express.urlencoded({extended: false}));
 app.use(cors());
 app.use(morgan('tiny'));
 app.use('/api', routes);
+
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static('client/build'));
+}
 
 app.listen(PORT, console.log(`Server is starting at ${PORT}`));
