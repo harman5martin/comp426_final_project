@@ -10,14 +10,14 @@ function FlightForm(props) {
             <div className="field">
                 <label className="label">Flight From (city)</label>
                 <div className="control">
-                    <input defaultValue='Washington DC' onChange={(e) => setFlightFrom(e.target.value)} className="input" type="text" placeholder="Text input"/>
+                    <input placeholder='where from...' onChange={(e) => setFlightFrom(e.target.value)} className="input" type="text"/>
                 </div>
             </div>
 
             <div className="field">
                 <label className="label">Flight To (city)</label>
                 <div className="control">
-                    <input defaultValue='San Francisco' onChange={(e) => setFlightTo(e.target.value)} className="input" type="text" placeholder="Text input"/>
+                    <input placeholder='where to...' onChange={(e) => setFlightTo(e.target.value)} className="input" type="text"/>
                 </div>
             </div>
 

@@ -1,7 +1,8 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import FlightForm from "./FlightForm";
 import FlightCard from "./FlightCard";
 import axios from "axios";
+import FlightSearch from "./FlightSearch";
 
 function FlightFinder() {
     const [findingFlight, setFindingFlight] = useState(false);
@@ -9,6 +10,7 @@ function FlightFinder() {
     const [flights, setFlights] = useState('');
     const [from, setFrom] = useState('');
     const [to, setTo] = useState('');
+    const [listOfFlights, setListOfFlights] = useState([]);
 
     async function flightGenerator(flightFrom, flightTo) {
         setFindingFlight(false);
@@ -51,7 +53,7 @@ function FlightFinder() {
             method: 'POST',
             data: {
                 title: flightFrom,
-                body: flightTo
+                body: flightTo,
             }
         }).then(() => console.log('data sent to the server'))
             .catch(() => console.log('server error'));
@@ -69,10 +71,38 @@ function FlightFinder() {
         setFlightFound(false);
     }
 
+    function getFlights() {
+        axios.get('http://localhost:8080/api')
+            .then((response) => {
+                const data = response.data;
+                setListOfFlights(data);
+                console.log('Data has been received!!');
+            })
+            .catch(() => {
+                console.log('fetch error');
+            });
+    }
+
+    useEffect( () => {
+        getFlights();
+    }, [listOfFlights]);
+
     if (findingFlight) {
         return <FlightForm onSubmit={flightGenerator} onCancel={onFlightCancel}></FlightForm>
     } else if (!findingFlight && !flightFound) {
-        return <button onClick={onFlightSearch}>Search For Flights</button>
+        return (
+            <div>
+                <button onClick={onFlightSearch}>Search For Flights</button>
+                <br/>
+                <br/>
+                <div className="title is-1">Previous Flights Searched</div>
+                {listOfFlights.map((t) =>
+                    (
+                        <FlightSearch key={t._id} from={t.title} to={t.body}
+                                    ></FlightSearch>
+                    ))}
+            </div>
+        )
     } else if (flightFound) {
         return (
             <div>
