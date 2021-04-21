@@ -12,7 +12,7 @@ const MONGODB_URI = 'mongodb+srv://harmanmartin:myDataBasePassCOMP426@cluster0.f
 
 const routes = require('./routes/api');
 
-mongoose.connect(process.env.MONGODB_URI || MONGODB_URI || 'mongodb://localhost/Comp426Backend', {
+mongoose.connect(MONGODB_URI || 'mongodb://localhost/Comp426Backend', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
