@@ -49,7 +49,7 @@ function FlightFinder() {
         setFlightFound(true);
 
         await axios({
-            url: 'http://localhost:8080/api/save',
+            url: '/api/save',
             method: 'POST',
             data: {
                 title: flightFrom,
@@ -72,7 +72,7 @@ function FlightFinder() {
     }
 
     function getFlights() {
-        axios.get('http://localhost:8080/api')
+        axios.get('/api')
             .then((response) => {
                 const data = response.data;
                 setListOfFlights(data);
